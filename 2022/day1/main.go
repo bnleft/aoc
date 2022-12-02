@@ -4,6 +4,7 @@ import (
     "bufio"
     "fmt"
     "os"
+    "sort"
     "strconv"
 )
 
@@ -22,28 +23,39 @@ func main() {
 
     scanner := bufio.NewScanner(f)
 
-    curNum := 0
-    mostCal := 0
-
+    
     var s string
+    var foods []int
+    curFoodCal := 0
+
     for scanner.Scan() {
         s = scanner.Text()
         if len(s) == 0 {
-            curNum = 0
+            foods = append(foods, curFoodCal)
+            curFoodCal = 0
             continue
         }
         
         cal, err := strconv.Atoi(s)
         check(err)
 
-        curNum += cal
-        if curNum > mostCal {
-            mostCal = curNum
-        }
+        curFoodCal += cal
     }
 
     err = scanner.Err()
     check(err)
 
-    fmt.Printf("Most Calories: %d", mostCal)
+    sort.Ints(foods)
+
+    last := len(foods) - 1
+
+    mostCal := foods[last]
+    sumCal := 0
+
+    for i := last; i >= 0 && i > last - 3; i-- {
+        sumCal += foods[i]
+    }
+
+    fmt.Printf("Most Calories: %d\n", mostCal)
+    fmt.Printf("Total Calories of Top 3 Food: %d\n", sumCal)
 }
