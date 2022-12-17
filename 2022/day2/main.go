@@ -39,6 +39,34 @@ func outcome(p1 int, me int) int {
     return val
 }
 
+func choose(op int, end string) int {
+    res := 0
+
+    if end == "X" { // Lose
+        if op == 1 {
+            res += 3
+        } else if op == 2 {
+            res += 1
+        } else if op == 3 {
+            res += 2
+        }
+    } else if end == "Y" { // Draw
+        res += op + 3
+    } else if end == "Z" { // Win
+        if op == 1 {
+            res += 2
+        } else if op == 2 {
+            res += 3
+        } else if op == 3 {
+            res += 1
+        }
+
+        res += 6
+    }
+
+    return res
+}
+
 func main() {
     fName := string(os.Args[1])
 
@@ -49,6 +77,7 @@ func main() {
     scanner := bufio.NewScanner(f)
 
     total := 0
+    total2 := 0
 
     var s string
     for scanner.Scan() {
@@ -57,11 +86,13 @@ func main() {
         p2 := string(s[2])
 
         total += shape(p2) + outcome(shape(p1), shape(p2))
+
+        total2 += choose(shape(p1), p2) 
     }
 
     err = scanner.Err()
     check(err)
 
-
-    fmt.Printf("%d\n", total)
+    fmt.Printf("Part 1: %d\n", total)
+    fmt.Printf("Part 2: %d\n", total2)
 }
