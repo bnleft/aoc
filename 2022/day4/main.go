@@ -24,6 +24,7 @@ func main() {
     scanner := bufio.NewScanner(f)
 
     total := 0
+    total2 := 0
 
     var pair string
     for scanner.Scan() {
@@ -43,16 +44,24 @@ func main() {
         end2, err := strconv.Atoi(sects2[1])
         check(err)
 
+        // Part 1
         if start1 >= start2 && end1 <= end2 { // sects1 within
             total += 1
         } else if start2 >= start1 && end2 <= end1 { // sects2 within
             total += 1
         }
         
+        // Part 2
+        if start1 <= start2 && end1 >= start2 {
+            total2 += 1
+        } else if start2 <= start1 && end2 >= start1 {
+            total2 += 1
+        }
     }
 
     err = scanner.Err()
     check(err)
         
     fmt.Printf("Part 1: %d\n", total)
+    fmt.Printf("Part 2: %d\n", total2)
 }
