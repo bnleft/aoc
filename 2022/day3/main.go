@@ -35,10 +35,14 @@ func main() {
     scanner := bufio.NewScanner(f)
 
     total := 0
+    total2 := 0
 
     var sack string
+    var group []string
     for scanner.Scan() {
         sack = scanner.Text()
+
+        // Part 1
         half := len(sack) / 2
         comp1 := []rune(sack[:half])
         comp2 := []rune(sack[half:])
@@ -53,10 +57,35 @@ func main() {
         }
 
         total += priority(common[0])
+
+        // Part 2
+        group = append(group, sack)
+
+        if len(group) == 3 {
+            elf1 := []rune(group[0])
+            elf2 := []rune(group[1])
+            elf3 := []rune(group[2])
+
+            var common2 string
+            for i := 0; i < len(elf1); i++ {
+                for j := 0; j < len(elf2); j++ {
+                    for k := 0; k < len(elf3); k++ {
+                        if elf1[i] == elf2[j] && elf1[i] == elf3[k] {
+                            common2 = string(elf1[i])
+                        }
+                    }
+                }
+            }
+
+            total2 += priority(common2[0])
+            
+            group = nil
+        }
     }
 
     err = scanner.Err()
     check(err)
 
     fmt.Printf("Part 1: %d\n", total)
+    fmt.Printf("Part 2: %d\n", total2)
 }
