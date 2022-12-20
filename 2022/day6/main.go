@@ -26,6 +26,11 @@ func main() {
 	scanner := bufio.NewScanner(f)
 
 	var answer int
+    distinct := 4
+
+    if *partPtr != 1 {
+        distinct = 14
+    }
 
 	for scanner.Scan() {
 		buffer := []rune(scanner.Text())
@@ -48,7 +53,7 @@ func main() {
             }
             
             
-            if count == 4 {
+            if count == distinct {
                 break
             }
         }
