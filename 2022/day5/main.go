@@ -2,6 +2,7 @@ package main
 
 import (
     "bufio"
+    "flag"
     "fmt"
     "os"
     "unicode"
@@ -16,9 +17,13 @@ func check(e error) {
 }
 
 func main() {
-    fName := string(os.Args[1])
+    fNamePtr := flag.String("file", "example.txt", "a string")
+    partPtr := flag.Int("part", 1, "an int")
 
-    f, err := os.Open(fName)
+    flag.Parse()
+
+
+    f, err := os.Open(*fNamePtr)
     check(err)
     defer f.Close()
 
@@ -74,12 +79,22 @@ func main() {
         startStack -= 1
         endStack -= 1
 
-        for i := 0; i < num && len(stacks[startStack]) > 0; i++ {
-            crate := stacks[startStack][len(stacks[startStack]) - 1]
-            
-            stacks[startStack] = stacks[startStack][:len(stacks[startStack])-1]
-            stacks[endStack] = append(stacks[endStack], []rune{crate}...)
+        // Part 1
+        if *partPtr == 1 {
+            for i := 0; i < num && len(stacks[startStack]) > 0; i++ {
+                crate := stacks[startStack][len(stacks[startStack]) - 1]
+                
+                stacks[startStack] = stacks[startStack][:len(stacks[startStack])-1]
+                stacks[endStack] = append(stacks[endStack], []rune{crate}...)
+            }
+
+            continue
         }
+
+        // Part 2
+        stacks[endStack] = append(stacks[endStack], stacks[startStack][len(stacks[startStack])-num:]...)
+        stacks[startStack] = stacks[startStack][:len(stacks[startStack])-num]
+        
     }
 
     err = scanner.Err()
@@ -90,5 +105,8 @@ func main() {
         topCrates = append(topCrates, stacks[i][len(stacks[i])-1])
     }
 
-    fmt.Printf("Part 1: %s\n", string(topCrates))
+    answer := string(topCrates)
+
+    fmt.Printf("Input File: %s\n", *fNamePtr)
+    fmt.Printf("Part %d: %s\n", *partPtr, answer)
 }
