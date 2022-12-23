@@ -50,6 +50,20 @@ func sumSizeMost(parent *Dir, answer *int, most int) {
     }
 }
 
+func smallestUnused(parent *Dir, answer *int, smallest int) {
+    if parent == nil {
+        return
+    }
+
+    for _, subDir := range parent.subs {
+        smallestUnused(subDir, answer, smallest)
+    }
+
+    if parent.size >= smallest && parent.size < *answer {
+        *answer = parent.size
+    }
+}
+
 func main() {
 	fNamePtr := flag.String("file", "example.txt", "a string")
 	partPtr := flag.Int("part", 1, "an int")
@@ -63,7 +77,6 @@ func main() {
 	scanner := bufio.NewScanner(f)
     
     answer := 0
-    most := 100000
 
     root := &Dir{
         name: "/",
@@ -140,7 +153,21 @@ func main() {
     adjustSize(root)
 
     // Part 1
-    sumSizeMost(root, &answer, most)
+    if *partPtr == 1 {
+        most := 100000
+        sumSizeMost(root, &answer, most)
+    }
+
+    // Part 2
+    if *partPtr == 2 {
+        totalDisk := 70000000
+        needed := 30000000 
+        unused := totalDisk - root.size
+        smallest := needed - unused
+        answer = needed
+
+        smallestUnused(root, &answer, smallest)
+    }
 
 	fmt.Printf("Input File: %s\n", *fNamePtr)
 	fmt.Printf("Part %d: %d\n", *partPtr, answer)
