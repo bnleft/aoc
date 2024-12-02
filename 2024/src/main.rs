@@ -1,11 +1,11 @@
 mod days;
 
+use days::day01;
 use std::fs;
-use days::{day01};
 
 fn main() {
     let day = 1;
-    let input = fs::read_to_string("data/inputs/day01/p1.txt").unwrap();
+    let input = fs::read_to_string("data/day01/input.txt").unwrap();
     let (p1, p2) = day01::solve(&input);
 
     println!("=== Day {:02} ===", day);
