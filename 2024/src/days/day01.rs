@@ -1,9 +1,9 @@
 use std::collections::HashMap;
 
 fn split_line(line: &str) -> (i32, i32) {
-    let parts: Vec<&str> = line.split_whitespace().collect();
-    let first: i32 = parts[0].parse().unwrap();
-    let second: i32 = parts[1].parse().unwrap();
+    let locations: Vec<&str> = line.split_whitespace().collect();
+    let first: i32 = locations[0].parse().unwrap();
+    let second: i32 = locations[1].parse().unwrap();
 
     (first, second)
 }
