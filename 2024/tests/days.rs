@@ -18,8 +18,15 @@ fn test_day02_solve() {
 }
 
 #[test]
-fn test_day03_solve() {
-    let input = fs::read_to_string("data/day03/example.txt").unwrap();
+fn test_day03_part1_solve() {
+    let input = fs::read_to_string("data/day03/example-part1.txt").unwrap();
     let (p1, _) = days::day03::solve(&input);
     assert_eq!(p1, 161);
+}
+
+#[test]
+fn test_day03_part2_solve() {
+    let input = fs::read_to_string("data/day03/example-part2.txt").unwrap();
+    let (_, p2) = days::day03::solve(&input);
+    assert_eq!(p2, 48);
 }
