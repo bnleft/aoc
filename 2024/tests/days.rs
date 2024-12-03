@@ -16,3 +16,10 @@ fn test_day02_solve() {
     assert_eq!(p1, 2);
     assert_eq!(p2, 4);
 }
+
+#[test]
+fn test_day03_solve() {
+    let input = fs::read_to_string("data/day03/example.txt").unwrap();
+    let (p1, _) = days::day03::solve(&input);
+    assert_eq!(p1, 161);
+}
